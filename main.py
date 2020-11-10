@@ -48,5 +48,6 @@ while True:
     draw_fon()
     check_events()
     food_draw()
+    snake_draw()
     pygame.display.update()
     clock.tick(window_fps)
