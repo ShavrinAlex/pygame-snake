@@ -14,13 +14,13 @@ def check_events():
     keys = pygame.key.get_pressed()
     if keys[pygame.K_ESCAPE]:
         sys.exit()
-    if keys[pygame.K_w]:
+    if keys[pygame.K_w] and snake_direction != 'down':
         snake_direction = 'up'
-    elif keys[pygame.K_s]:
+    elif keys[pygame.K_s] and snake_direction != 'up':
         snake_direction = 'down'
-    elif keys[pygame.K_a]:
+    elif keys[pygame.K_a] and snake_direction != 'right':
         snake_direction = 'left'
-    elif keys[pygame.K_d]:
+    elif keys[pygame.K_d] and snake_direction != 'left':
         snake_direction = 'right'
 
 def draw_fon():
@@ -79,7 +79,6 @@ def snake_check_collision():
         snake_pos_x = window_width - window_pixel
     elif snake_pos_x > window_width - window_pixel:
         snake_pos_x = 0
-
 
 pygame.init()
 
