@@ -72,13 +72,13 @@ def snake_check_collision():
     """Проверяем на столкновение змейки с стенкой"""
     global snake_pos_x, snake_pos_y
     if snake_pos_y < 0:
-        snake_pos_y = window_height - window_pixel
+        snake_pos_y = window_height
     elif snake_pos_y > window_height - window_pixel:
-        snake_pos_y = 0
+        snake_pos_y = 0 - window_pixel
     if snake_pos_x < 0:
-        snake_pos_x = window_width - window_pixel
+        snake_pos_x = window_width
     elif snake_pos_x > window_width - window_pixel:
-        snake_pos_x = 0
+        snake_pos_x = 0 - window_pixel
 
 pygame.init()
 
