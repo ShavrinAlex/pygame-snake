@@ -22,6 +22,9 @@ snake_pos_y = window_height // 2
 snake_width = window_pixel
 shake_height = window_pixel
 snake_direction = 'up'
+snake_block = [snake_pos_x, snake_pos_y]
+snake_body = []
+snake_len = 4
 
 # Настройки параметров еды
 food_width = window_pixel

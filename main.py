@@ -38,11 +38,12 @@ def food_draw():
 
 def food_check_collision():
     """Проверка на пересечение координат змейки и еды"""
-    global window_fps
+    global window_fps, snake_len
 
     if snake_pos_x == food_pos_x and snake_pos_y == food_pos_y:
         food_set_pos()
         window_fps += 1
+        snake_len += 1
 
 def food_set_pos():
     """Устанавливаем новые координаты для еды"""
@@ -53,7 +54,17 @@ def food_set_pos():
 
 def snake_draw():
     """Рисуем змейку"""
-    pygame.draw.rect(window, color_snake, (snake_pos_x, snake_pos_y, snake_width, shake_height))
+
+    snake_haed = []
+    snake_haed.append(snake_pos_x)
+    snake_haed.append(snake_pos_y)
+
+    snake_body.append(snake_haed)
+    for block in snake_body:
+        pygame.draw.rect(window, color_snake, (block[0], block[1], snake_width, shake_height))
+
+    if len(snake_body) >= snake_len:
+        snake_body.pop(0)
 
 def snake_move():
     """Отвечает за передвижение змейки"""
@@ -71,14 +82,20 @@ def snake_move():
 def snake_check_collision():
     """Проверяем на столкновение змейки с стенкой"""
     global snake_pos_x, snake_pos_y
+
+    print(snake_pos_x, snake_pos_y, window_width, window_height)
     if snake_pos_y < 0:
-        snake_pos_y = window_height
+        snake_pos_y = window_height - window_pixel
+        print('Верхняя стенка', 0)
     elif snake_pos_y > window_height - window_pixel:
-        snake_pos_y = 0 - window_pixel
+        snake_pos_y = 0
+        print('Нижняя стенка', 500)
     if snake_pos_x < 0:
-        snake_pos_x = window_width
+        snake_pos_x = window_width - window_pixel
+        print('Левая стенка', 0)
     elif snake_pos_x > window_width - window_pixel:
-        snake_pos_x = 0 - window_pixel
+        snake_pos_x = 0
+        print('Правая стенка', 500)
 
 pygame.init()
 
@@ -94,8 +111,8 @@ while True:
     check_events()
     food_check_collision()
     food_draw()
-    snake_check_collision()
     snake_move()
+    snake_check_collision()
     snake_draw()
     pygame.display.update()
 
