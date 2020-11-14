@@ -1,4 +1,5 @@
 import sys
+import time
 import pygame
 from parameters import *
 
@@ -23,6 +24,7 @@ def check_events():
     elif keys[pygame.K_d] and snake_direction != 'left':
         snake_direction = 'right'
 
+
 def draw_fon():
     """Рисуем фон окна"""
     window.fill(color_fon)
@@ -32,9 +34,11 @@ def draw_fon():
     for x in range(window_pixel, window_width, window_pixel):
         pygame.draw.line(window, color_grid, (x, 0), (x, window_height))
 
+
 def food_draw():
     """Рисуем еду"""
     pygame.draw.rect(window, color_food, (food_pos_x, food_pos_y, food_width, food_height))
+
 
 def food_check_collision():
     """Проверка на пересечение координат змейки и еды"""
@@ -45,12 +49,14 @@ def food_check_collision():
         window_fps += 1
         snake_len += 1
 
+
 def food_set_pos():
     """Устанавливаем новые координаты для еды"""
     global food_pos_x, food_pos_y
 
     food_pos_x = random.randrange(0, window_width, window_pixel)
     food_pos_y = random.randrange(0, window_height, window_pixel)
+
 
 def snake_draw():
     """Рисуем змейку"""
@@ -66,6 +72,7 @@ def snake_draw():
     if len(snake_body) >= snake_len:
         snake_body.pop(0)
 
+
 def snake_move():
     """Отвечает за передвижение змейки"""
     global snake_pos_x, snake_pos_y
@@ -79,23 +86,28 @@ def snake_move():
     else:
         snake_pos_x += window_pixel
 
-def snake_check_collision():
+
+def snake_check_collision_wall():
     """Проверяем на столкновение змейки с стенкой"""
     global snake_pos_x, snake_pos_y
 
-    print(snake_pos_x, snake_pos_y, window_width, window_height)
     if snake_pos_y < 0:
         snake_pos_y = window_height - window_pixel
-        print('Верхняя стенка', 0)
     elif snake_pos_y > window_height - window_pixel:
         snake_pos_y = 0
-        print('Нижняя стенка', 500)
     if snake_pos_x < 0:
         snake_pos_x = window_width - window_pixel
-        print('Левая стенка', 0)
     elif snake_pos_x > window_width - window_pixel:
         snake_pos_x = 0
-        print('Правая стенка', 500)
+
+
+def snake_check_collision_tail():
+    """Проверка на столкновение с хвостом"""
+    for block in snake_body[:-1]:
+        if snake_pos_x == block[0] and snake_pos_y == block[1]:
+            time.sleep(2)
+            sys.exit()
+
 
 pygame.init()
 
@@ -112,7 +124,8 @@ while True:
     food_check_collision()
     food_draw()
     snake_move()
-    snake_check_collision()
+    snake_check_collision_wall()
+    snake_check_collision_tail()
     snake_draw()
     pygame.display.update()
 

@@ -7,8 +7,8 @@ window_width = 500
 window_height = 500
 window_title = 'Snake'
 window_icon = pygame.image.load('images/Icon.png')
-window_fps = 5
-window_pixel = 25
+window_fps = 10
+window_pixel = 10
 
 # Настройки цветов
 color_snake = (10, 200, 10)
@@ -24,7 +24,7 @@ shake_height = window_pixel
 snake_direction = 'up'
 snake_block = [snake_pos_x, snake_pos_y]
 snake_body = []
-snake_len = 4
+snake_len = 1
 
 # Настройки параметров еды
 food_width = window_pixel
