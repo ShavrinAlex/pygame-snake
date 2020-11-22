@@ -47,9 +47,14 @@ class App:
         # Нажатие на крестик
         [self._quit() for event in pg.event.get() if event.type == pg.QUIT]
 
-        # Управление змейкой
+        # События с клавиатуры
         keys = pg.key.get_pressed()
 
+        # Завершение программы на Escape
+        if keys[pg.K_ESCAPE]:
+            self._quit()
+
+        # Управление змейкой
         if keys[pg.K_w] and self.snake.direction != 'down':
             self.snake.direction = 'up'
         elif keys[pg.K_a] and self.snake.direction != 'right':
