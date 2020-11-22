@@ -34,6 +34,7 @@ class App:
             self.check_events()
             self.draw()
 
+
     def _quit(self):
         """Завершение программы."""
         print('Программа завершилась')
@@ -68,18 +69,11 @@ class App:
         pg.display.update()
 
     
-
-
-
-    
-
 class Snake:
     """Класс змейки."""
 
     def __init__(self, WINDOW, PIXEL):
-        """
-        Инициализация настроек змейки.
-        """
+        """Инициализация настроек змейки."""
 
         self.WINDOW = WINDOW
         self.PIXEL = PIXEL
@@ -94,20 +88,35 @@ class Snake:
         self.body = []
         self.head = []
 
-        
+
+    def add_block_in_body(self):
+        """Добавляет новый блок в тело змейки."""
+
+        self.head = []
+        self.head.append(self.pos_x)
+        self.head.append(self.pos_y)
+        self.body.append(self.head)  
+
+    def check_len_body(self):
+        """Проверяет фактическую и должную длинну змейки."""
+
+        if len(self.body) >= self.len:
+            self.body.pop(0)
+
+
     def draw(self):
-        """
-        Рисует змейку.
-        """
+        """Отрисовка змейки."""
         self._move()
-        pg.draw.rect(self.WINDOW, self.COLOR, (self.pos_x, self.pos_y, self.WIDTH, self.HIGHT))
+        self.add_block_in_body()
 
-    
+        for block in self.body:
+            pg.draw.rect(self.WINDOW, self.COLOR, (block[0], block[1], self.WIDTH, self.HIGHT))
+        
+        self.check_len_body()
+
+
     def _move(self):
-        """
-        Движение змейки.
-        """
-
+        """Изменение координат self.pos_x, self.pos_y."""
 
         if self.direction == 'up':
             self.pos_y -= self.PIXEL
@@ -122,9 +131,7 @@ class Snake:
     
 
     def _collision_wall(self):
-        """
-        Столкновение змейки со стенкой.
-        """
+        """Проверка пересечения координат со стенкой."""
 
         if self.pos_y < 0:
             self.pos_y = pg.display.get_window_size()[1] - self.PIXEL
@@ -136,7 +143,14 @@ class Snake:
             self.pos_x = 0
         
 
-        
+    @property
+    def is_collision_tail(self):
+        """Проверка пересечения координат с хвостом."""
+
+        for block in self.body[:-1]:
+            if self.pos_x == block[0] and self.pos_y == block[1]:
+                return True
+        return False
 
 
 class Food:
