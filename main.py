@@ -7,9 +7,11 @@ class App:
     Управляет всеми процессами приложения.
     """
     def __init__(self):
-        """инициализация настроек приложения"""
+        """Инициализация настроек приложения"""
+        # initialization pygame
         pg.init()
 
+        # Window setings
         self.WIDTH = 600
         self.HEIGHT = 600
         self.PIXEL = 5
@@ -22,8 +24,10 @@ class App:
         pg.display.set_caption(self.TITLE)
         pg.display.set_icon(self.ICON)
 
+        # Example snake
         self.snake = Snake(self.WINDOW, self.PIXEL)
 
+        # Program start
         self._run()
     
 
@@ -66,10 +70,16 @@ class App:
     def _draw(self):
         """Отрисовка всех объектво в окне приложения."""
 
+        # Background color
         self.WINDOW.fill(self.COLOR_FON)
+
+        # Draw snake
         self.snake.draw()
 
+        # Framerate
         self.CLOCK.tick(self.FPS)
+
+        # Update
         pg.display.update()
 
     
@@ -170,7 +180,7 @@ class Food:
 def main():
     """Точка входа в программу"""
 
-    # Экземпляр приложения
+    # Example Program
     app = App()
 
 if __name__ == "__main__":
