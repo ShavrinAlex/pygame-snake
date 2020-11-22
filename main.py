@@ -12,9 +12,9 @@ class App:
 
         self.WIDTH = 600
         self.HEIGHT = 600
-        self.PIXEL = 20
+        self.PIXEL = 5
         self.COLOR_FON = (20, 20, 20)
-        self.FPS = 8
+        self.FPS = 30
         self.CLOCK = pg.time.Clock()
         self.TITLE = "Snake"
         self.ICON = pg.image.load('images/icon.png')
@@ -33,7 +33,6 @@ class App:
         while True:
             self._check_events()
             self._draw()
-
 
     def _quit(self):
         """Завершение программы."""
@@ -54,14 +53,14 @@ class App:
         if keys[pg.K_ESCAPE]:
             self._quit()
 
-        # Управление змейкой
-        if keys[pg.K_w] and self.snake.direction != 'down':
+        # Управление змейкой wasd or khjl or стрелочки
+        if (keys[pg.K_w] or keys[pg.K_k] or keys[pg.K_UP]) and self.snake.direction != 'down':
             self.snake.direction = 'up'
-        elif keys[pg.K_a] and self.snake.direction != 'right':
+        elif (keys[pg.K_a] or keys[pg.K_h] or keys[pg.K_LEFT]) and self.snake.direction != 'right':
             self.snake.direction = 'left'
-        elif keys[pg.K_s] and self.snake.direction != 'up':
+        elif (keys[pg.K_s] or keys[pg.K_j] or keys[pg.K_DOWN]) and self.snake.direction != 'up':
             self.snake.direction = 'down'
-        elif keys[pg.K_d] and self.snake.direction != 'left':
+        elif (keys[pg.K_d] or keys[pg.K_l] or keys[pg.K_RIGHT]) and self.snake.direction != 'left':
             self.snake.direction = 'right'
 
     def _draw(self):
