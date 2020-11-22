@@ -24,15 +24,15 @@ class App:
 
         self.snake = Snake(self.WINDOW, self.PIXEL)
 
-        self.run()
+        self._run()
     
 
-    def run(self):
+    def _run(self):
         """Главный цикл приложения"""
 
         while True:
-            self.check_events()
-            self.draw()
+            self._check_events()
+            self._draw()
 
 
     def _quit(self):
@@ -41,7 +41,7 @@ class App:
         pg.quit()
         quit()
     
-    def check_events(self):
+    def _check_events(self):
         """Проверка всех событий программы."""
 
         # Нажатие на крестик
@@ -63,8 +63,8 @@ class App:
             self.snake.direction = 'down'
         elif keys[pg.K_d] and self.snake.direction != 'left':
             self.snake.direction = 'right'
-    
-    def draw(self):
+
+    def _draw(self):
         """Отрисовка всех объектво в окне приложения."""
 
         self.WINDOW.fill(self.COLOR_FON)
@@ -169,6 +169,9 @@ class Food:
 
 
 def main():
+    """Точка входа в программу"""
+
+    # Экземпляр приложения
     app = App()
 
 if __name__ == "__main__":
