@@ -37,7 +37,8 @@ def draw_fon():
 
 def food_draw():
     """Рисуем еду"""
-    pygame.draw.rect(window, color_food, (food_pos_x, food_pos_y, food_width, food_height))
+    pygame.draw.rect(window, color_food, (food_pos_x,
+                                          food_pos_y, food_width, food_height))
 
 
 def food_check_collision():
@@ -67,7 +68,8 @@ def snake_draw():
 
     snake_body.append(snake_haed)
     for block in snake_body:
-        pygame.draw.rect(window, color_snake, (block[0], block[1], snake_width, shake_height))
+        pygame.draw.rect(window, color_snake,
+                         (block[0], block[1], snake_width, shake_height))
 
     if len(snake_body) >= snake_len:
         snake_body.pop(0)
