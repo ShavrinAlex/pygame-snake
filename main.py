@@ -2,10 +2,12 @@ import time
 import random
 import pygame as pg
 
+
 class App:
     """
     Управляет всеми процессами приложения.
     """
+
     def __init__(self):
         """Инициализация настроек приложения"""
         # initialization pygame
@@ -29,7 +31,6 @@ class App:
 
         # Program start
         self._run()
-    
 
     def _run(self):
         """Главный цикл приложения"""
@@ -43,7 +44,7 @@ class App:
         print('Программа завершилась')
         pg.quit()
         quit()
-    
+
     def _check_events(self):
         """Проверка всех событий программы."""
 
@@ -82,12 +83,17 @@ class App:
         # Update
         pg.display.update()
 
-    
+
 class Snake:
     """Класс змейки."""
 
     def __init__(self, WINDOW, PIXEL):
-        """Инициализация настроек змейки."""
+        """Инициализация настроек змейки.
+
+        Args:
+            WINDOW (Surface): Окно библеотеки pygame.
+            PIXEL (Int): Размер стороны виртуального пикселя.
+        """
 
         self.WINDOW = WINDOW
         self.PIXEL = PIXEL
@@ -102,14 +108,13 @@ class Snake:
         self.body = []
         self.head = []
 
-
     def add_block_in_body(self):
         """Добавляет новый блок в тело змейки."""
 
         self.head = []
         self.head.append(self.pos_x)
         self.head.append(self.pos_y)
-        self.body.append(self.head)  
+        self.body.append(self.head)
 
     def check_len_body(self):
         """Проверяет фактическую и должную длинну змейки."""
@@ -117,17 +122,16 @@ class Snake:
         if len(self.body) >= self.len:
             self.body.pop(0)
 
-
     def draw(self):
-        """Отрисовка змейки."""
+        """Отрисовка змейки цветом self.COLOR в окне self.WINDOW в координатах self.pos_x, self_pos_y"""
         self._move()
         self.add_block_in_body()
 
         for block in self.body:
-            pg.draw.rect(self.WINDOW, self.COLOR, (block[0], block[1], self.WIDTH, self.HIGHT))
-        
-        self.check_len_body()
+            pg.draw.rect(self.WINDOW, self.COLOR,
+                         (block[0], block[1], self.WIDTH, self.HIGHT))
 
+        self.check_len_body()
 
     def _move(self):
         """Изменение координат self.pos_x, self.pos_y."""
@@ -140,9 +144,8 @@ class Snake:
             self.pos_x -= self.PIXEL
         else:
             self.pos_x += self.PIXEL
-        
+
         self._collision_wall()
-    
 
     def _collision_wall(self):
         """Проверка пересечения координат со стенкой."""
@@ -155,12 +158,18 @@ class Snake:
             self.pos_x = pg.display.get_window_size()[0] - self.PIXEL
         elif self.pos_x >= pg.display.get_window_size()[0]:
             self.pos_x = 0
-        
 
     @property
     def is_collision_tail(self):
-        """Проверка пересечения координат с хвостом."""
+        """Проверка пересечения координат с хвостом.
 
+        Returns:
+            [True]: Если координаты self.pos_x, self.pos_y
+                    пересекаются с координатами блоков внутри тела змейки self.body.
+                   
+            [False]:Если координаты self.pos_x, self.pos_y
+                    не пересекаются с координатами блоков внутри тела змейки self.body.
+        """
         for block in self.body[:-1]:
             if self.pos_x == block[0] and self.pos_y == block[1]:
                 return True
@@ -176,12 +185,12 @@ class Food:
     pass
 
 
-
 def main():
     """Точка входа в программу"""
 
     # Example Program
     app = App()
+
 
 if __name__ == "__main__":
     main()
