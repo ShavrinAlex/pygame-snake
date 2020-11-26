@@ -16,9 +16,9 @@ class App:
         # Window setings
         self.WIDTH = 600
         self.HEIGHT = 600
-        self.PIXEL = 5
+        self.PIXEL = 20
         self.COLOR_FON = (20, 20, 20)
-        self.FPS = 30
+        self.FPS = 5
         self.CLOCK = pg.time.Clock()
         self.TITLE = "Snake"
         self.ICON = pg.image.load('images/icon.png')
@@ -28,6 +28,9 @@ class App:
 
         # Example snake
         self.snake = Snake(self.WINDOW, self.PIXEL)
+
+        # Example food
+        self.food = Food(self.WINDOW, self.PIXEL, self.snake)
 
         # Program start
         self._run()
@@ -74,6 +77,9 @@ class App:
         # Background color
         self.WINDOW.fill(self.COLOR_FON)
 
+        # Draw food
+        self.food.draw()
+
         # Draw snake
         self.snake.draw()
 
@@ -104,7 +110,7 @@ class Snake:
         self.direction = 'up'
         self.pos_x = pg.display.get_window_size()[0] // 2
         self.pos_y = pg.display.get_window_size()[1] // 2
-        self.len = 1
+        self.len = 15
         self.body = []
         self.head = []
 
@@ -146,6 +152,7 @@ class Snake:
             self.pos_x += self.PIXEL
 
         self._collision_wall()
+        self._collision_tail()
 
     def _collision_wall(self):
         """Проверка пересечения координат со стенкой."""
@@ -159,8 +166,8 @@ class Snake:
         elif self.pos_x >= pg.display.get_window_size()[0]:
             self.pos_x = 0
 
-    @property
-    def is_collision_tail(self):
+    
+    def _collision_tail(self):
         """Проверка пересечения координат с хвостом.
 
         Returns:
@@ -172,8 +179,7 @@ class Snake:
         """
         for block in self.body[:-1]:
             if self.pos_x == block[0] and self.pos_y == block[1]:
-                return True
-        return False
+               quit()
 
 
 class Food:
@@ -182,7 +188,44 @@ class Food:
     Класс еды.
     """
 
-    pass
+    def __init__(self, WINDOW, PIXEL, snake):
+        """Инициализация нвстроек еды.
+
+
+        Args:
+            WINDOW (Surface): Окно библеотеки pygame.
+            PIXEL (Int): Размер стороны виртуального пикселя.
+        """
+        self.WINDOW = WINDOW
+        self.PIXEL = PIXEL
+        self.WIDTH = PIXEL
+        self.HEIGHT = PIXEL
+        self.COLOR = (200, 20, 20)
+        self.set_position()
+
+        self.snake = snake
+
+
+    def draw(self):
+        
+        self._is_eaten()
+        pg.draw.rect(self.WINDOW, self.COLOR, (self.pos_x, self.pos_y, self.WIDTH, self.HEIGHT),
+                    border_radius=self.PIXEL)
+        
+
+    def set_position(self):
+
+        self.pos_x = random.randrange(0, pg.display.get_window_size()[0] - self.PIXEL, self.PIXEL)
+        self.pos_y = random.randrange(0, pg.display.get_window_size()[1] - self.PIXEL, self.PIXEL)
+
+
+    def _is_eaten(self):
+
+        if self.pos_x == self.snake.pos_x and self.pos_y == self.snake.pos_y:
+            self.set_position()
+            self.snake.len += 1
+    
+        
 
 
 def main():
